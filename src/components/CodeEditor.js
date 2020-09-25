@@ -41,7 +41,10 @@ function CodeEditor({ value, onChange }) {
 
   return (
     <EditorWrapper>
-      <div ref={editorElement} style={{ height: contentHeightStyle }} />
+      <div
+        ref={editorElement}
+        style={{ height: `calc(${contentHeightStyle})` }}
+      />
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </EditorWrapper>
   )

@@ -43,7 +43,7 @@ function EditorMode({ fallbackData }) {
           </Col>
         </Row>
       </Header>
-      <Content style={{ minHeight: contentHeightStyle }}>
+      <Content style={{ minHeight: `calc(${contentHeightStyle})` }}>
         <Row type="flex">
           <Col span={10}>
             <CodeEditor value={decodeData} onChange={handleOnEditorChange} />

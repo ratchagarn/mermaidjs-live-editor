@@ -1,12 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { Row, Col } from 'antd'
 import mermaid from 'mermaid'
 
 import contentHeightStyle from '../variables/contentHeightStyle'
 
+const zoomScaleList = [100, 75, 50]
+
 function Preview({ code, onError }) {
   const [hasError, setHasError] = useState(false)
+  const [activeZoomScale, setActiveZoomScale] = useState(zoomScaleList[0])
   const container = useRef()
 
   useEffect(() => {
@@ -31,8 +35,36 @@ function Preview({ code, onError }) {
   }, [code])
 
   return (
-    <PreviewContainer id="renderedSVG" ref={container} hasError={hasError} />
+    <PreviewWrapper>
+      <ZoomControl>
+        <Row type="flex" gutter={16} justify="end">
+          <Col>Zoom</Col>
+          {zoomScaleList.map((scale) => (
+            <Col key={scale}>
+              <ZoomScale
+                active={activeZoomScale === scale}
+                onClick={handleOnZoomScaleClick(scale)}
+              >
+                {scale}%
+              </ZoomScale>
+            </Col>
+          ))}
+        </Row>
+      </ZoomControl>
+      <PreviewContainer
+        id="renderedSVG"
+        ref={container}
+        hasError={hasError}
+        scale={activeZoomScale}
+      />
+    </PreviewWrapper>
   )
+
+  function handleOnZoomScaleClick(scale) {
+    return () => {
+      setActiveZoomScale(scale)
+    }
+  }
 }
 
 Preview.propTypes = {
@@ -46,9 +78,12 @@ Preview.defaultProps = {
 
 export default Preview
 
-const PreviewContainer = styled.div`
+const PreviewWrapper = styled.div`
   position: relative;
-  height: ${contentHeightStyle};
+`
+
+const PreviewContainer = styled.div`
+  height: calc(${contentHeightStyle} - 38px);
   background-color: white;
   opacity: ${(p) => (p.hasError ? 0.4 : 1)};
   overflow: auto;
@@ -56,5 +91,23 @@ const PreviewContainer = styled.div`
 
   svg {
     height: auto;
+    transform: scale(${(p) => p.scale / 100});
+    transition: transform 0.2s;
+  }
+`
+
+const ZoomControl = styled.div`
+  padding: 8px;
+  background-color: black;
+  color: #999;
+`
+
+const ZoomScale = styled.span`
+  color: ${(p) => (p.active ? 'white' : '#666')};
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    color: ${(p) => (p.active ? 'white' : '#AAA')};
   }
 `
