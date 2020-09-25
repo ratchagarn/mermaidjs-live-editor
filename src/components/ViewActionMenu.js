@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Menu, Dropdown, message } from 'antd'
-import { DownOutlined } from '@ant-design/icons'
+import { BarsOutlined } from '@ant-design/icons'
 import copy from 'copy-to-clipboard'
 import { Base64 } from 'js-base64'
 import dayjs from 'dayjs'
@@ -35,7 +35,7 @@ function ViewActionMenu() {
   return (
     <Dropdown overlay={menu} trigger={['click']}>
       <TiggerButton onClick={(e) => e.preventDefault()}>
-        Actions <DownOutlined />
+        <BarsOutlined style={{ fontWeight: 'bold' }} />
       </TiggerButton>
     </Dropdown>
   )
