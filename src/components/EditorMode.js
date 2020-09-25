@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import { useParams, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { Layout, Row, Col } from 'antd'
+import { encode, decode } from 'js-base64'
+import { useDebouncedCallback } from 'use-debounce'
 
 import pkg from '../../package.json'
 
@@ -10,17 +14,16 @@ import Preview from './Preview'
 
 const { Header, Footer, Content } = Layout
 
-const defaultCode = `
-graph TD
-    A[Christmas] -->|Get money| B(Go shopping)
-    B --> C{Let me think}
-    C -->|One| D[Laptop]
-    C -->|Two| E[iPhone]
-    C -->|Three| F[fa:fa-car Car]
-`.trim()
+function EditorMode({ fallbackData }) {
+  const { data } = useParams()
+  const history = useHistory()
+  const decodeData = ensureDataParam(data)
+  const [sourceCode, setSourceCode] = useState(decodeData)
 
-function EditorMode() {
-  const [sourceCode, setSourceCode] = useState(defaultCode)
+  const debounced = useDebouncedCallback(
+    (sourceCode) => history.replace(`/edit/${encode(sourceCode)}`),
+    500
+  )
 
   return (
     <Layout>
@@ -39,7 +42,7 @@ function EditorMode() {
       <Content style={{ minHeight: 'calc(100vh - 64px - 70px)' }}>
         <Row type="flex">
           <Col span={10}>
-            <CodeEditor value={defaultCode} onChange={handleOnEditorChange} />
+            <CodeEditor value={decodeData} onChange={handleOnEditorChange} />
           </Col>
           <Col span={14}>
             <Preview code={sourceCode} />
@@ -59,9 +62,22 @@ function EditorMode() {
     </Layout>
   )
 
+  function ensureDataParam(data) {
+    try {
+      return decode(data)
+    } catch {
+      return decode(fallbackData)
+    }
+  }
+
   function handleOnEditorChange(value) {
     setSourceCode(value)
+    debounced.callback(value)
   }
+}
+
+EditorMode.propTypes = {
+  fallbackData: PropTypes.string,
 }
 
 export default EditorMode
