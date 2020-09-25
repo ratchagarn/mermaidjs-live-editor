@@ -32,7 +32,8 @@
     "start": "PORT=3245 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "adjust-build-for-cdn.js": "node scripts/adjust-build-for-cdn.js.js"
   },
   "eslintConfig": {
     "extends": "react-app"
