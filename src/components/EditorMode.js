@@ -10,6 +10,8 @@ import pkg from '../../package.json'
 
 import { ensureDecodeParamData } from '../helpers/utils'
 
+import contentHeightStyle from '../variables/contentHeightStyle'
+
 import ActionsMenu from './ActionsMenu'
 import CodeEditor from './CodeEditor'
 import Preview from './Preview'
@@ -41,7 +43,7 @@ function EditorMode({ fallbackData }) {
           </Col>
         </Row>
       </Header>
-      <Content style={{ minHeight: 'calc(100vh - 64px - 70px)' }}>
+      <Content style={{ minHeight: contentHeightStyle }}>
         <Row type="flex">
           <Col span={10}>
             <CodeEditor value={decodeData} onChange={handleOnEditorChange} />

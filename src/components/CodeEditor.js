@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import mermaid from 'mermaid'
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js'
 
+import contentHeightStyle from '../variables/contentHeightStyle'
+
 function CodeEditor({ value, onChange }) {
   const editorElement = useRef()
   const [errorMessage, setErrorMessage] = useState()
@@ -39,10 +41,7 @@ function CodeEditor({ value, onChange }) {
 
   return (
     <EditorWrapper>
-      <div
-        ref={editorElement}
-        style={{ height: 'calc(100vh - 64px - 70px)' }}
-      />
+      <div ref={editorElement} style={{ height: contentHeightStyle }} />
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </EditorWrapper>
   )
