@@ -4,12 +4,11 @@ import { Layout, Row, Col } from 'antd'
 
 import pkg from '../package.json'
 
+import ActionsMenu from './components/ActionsMenu'
 import CodeEditor from './components/CodeEditor'
 import Preview from './components/Preview'
 
 const { Header, Footer, Content } = Layout
-
-console.log(pkg)
 
 const defaultCode = `
 graph TD
@@ -27,8 +26,13 @@ function App() {
     <Layout>
       <Header>
         <Row type="flex">
-          <Col>
+          <Col span={14}>
             <AppName>Mermaid Live Editor</AppName>
+          </Col>
+          <Col span={10}>
+            <Row type="flex" justify="end">
+              <ActionsMenu />
+            </Row>
           </Col>
         </Row>
       </Header>
