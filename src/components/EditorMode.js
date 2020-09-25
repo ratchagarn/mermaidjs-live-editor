@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useParams, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { Layout, Row, Col } from 'antd'
-import { encode } from 'js-base64'
+import { Base64 } from 'js-base64'
 import { useDebouncedCallback } from 'use-debounce'
 
 import pkg from '../../package.json'
@@ -23,7 +23,7 @@ function EditorMode({ fallbackData }) {
   const [sourceCode, setSourceCode] = useState(decodeData)
 
   const debounced = useDebouncedCallback(
-    (sourceCode) => history.replace(`/edit/${encode(sourceCode)}`),
+    (sourceCode) => history.replace(`/edit/${Base64.encodeURI(sourceCode)}`),
     500
   )
 

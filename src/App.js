@@ -1,6 +1,6 @@
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
-import { encode } from 'js-base64'
+import { Base64 } from 'js-base64'
 
 import NoMatch from './components/NoMatch'
 import ViewMode from './components/ViewMode'
@@ -8,7 +8,7 @@ import EditorMode from './components/EditorMode'
 
 import defaultSourceCode from './variables/defaultSourceCode'
 
-const dataFromDefaultSourceCode = encode(defaultSourceCode)
+const dataFromDefaultSourceCode = Base64.encodeURI(defaultSourceCode)
 
 function App() {
   return (
