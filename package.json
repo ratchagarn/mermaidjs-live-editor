@@ -33,7 +33,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "adjust-build-for-cdn.js": "node scripts/adjust-build-for-cdn.js.js"
+    "adjust-build-for-cdn": "node scripts/adjust-build-for-cdn.js",
+    "deploy": "surge build --domain https://ratchagarn-mermaid-live-editor.surge.sh",
+    "build-and-deploy": "yarn build && yarn adjust-build-for-cdn && yarn deploy"
   },
   "eslintConfig": {
     "extends": "react-app"
