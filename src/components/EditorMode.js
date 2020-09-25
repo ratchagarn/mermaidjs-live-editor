@@ -3,10 +3,12 @@ import PropTypes from 'prop-types'
 import { useParams, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { Layout, Row, Col } from 'antd'
-import { encode, decode } from 'js-base64'
+import { encode } from 'js-base64'
 import { useDebouncedCallback } from 'use-debounce'
 
 import pkg from '../../package.json'
+
+import { ensureDecodeParamData } from '../helpers/utils'
 
 import ActionsMenu from './ActionsMenu'
 import CodeEditor from './CodeEditor'
@@ -17,7 +19,7 @@ const { Header, Footer, Content } = Layout
 function EditorMode({ fallbackData }) {
   const { data } = useParams()
   const history = useHistory()
-  const decodeData = ensureDataParam(data)
+  const decodeData = ensureDecodeParamData(data, fallbackData)
   const [sourceCode, setSourceCode] = useState(decodeData)
 
   const debounced = useDebouncedCallback(
@@ -61,14 +63,6 @@ function EditorMode({ fallbackData }) {
       </Footer>
     </Layout>
   )
-
-  function ensureDataParam(data) {
-    try {
-      return decode(data)
-    } catch {
-      return decode(fallbackData)
-    }
-  }
 
   function handleOnEditorChange(value) {
     setSourceCode(value)

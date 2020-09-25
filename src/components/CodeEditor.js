@@ -17,6 +17,7 @@ function CodeEditor({ value, onChange }) {
       value,
       theme: 'vs-dark',
       language: 'mermaid',
+      automaticLayout: true,
     })
 
     editor.getModel().updateOptions({ tabSize: 2 })

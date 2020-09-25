@@ -7,6 +7,8 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "antd": "^4.6.5",
+    "copy-to-clipboard": "^3.3.1",
+    "dayjs": "^1.8.36",
     "husky": "^4.3.0",
     "js-base64": "^3.5.2",
     "lint-staged": "^10.4.0",

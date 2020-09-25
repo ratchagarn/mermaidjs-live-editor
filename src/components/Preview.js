@@ -3,9 +3,13 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import mermaid from 'mermaid'
 
-function Preview({ code }) {
+function Preview({ code, onError }) {
   const [hasError, setHasError] = useState(false)
   const container = useRef()
+
+  useEffect(() => {
+    hasError && onError()
+  }, [hasError, onError])
 
   useEffect(() => {
     if (!code) {
@@ -25,7 +29,7 @@ function Preview({ code }) {
   }, [code])
 
   return (
-    <PreviewWrapper>
+    <PreviewWrapper id="renderedSVG">
       <PreviewContainer ref={container} hasError={hasError} />
     </PreviewWrapper>
   )
@@ -33,6 +37,11 @@ function Preview({ code }) {
 
 Preview.propTypes = {
   code: PropTypes.string,
+  onError: PropTypes.func,
+}
+
+Preview.defaultProps = {
+  onError: () => {},
 }
 
 export default Preview
