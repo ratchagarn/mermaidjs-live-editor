@@ -6,9 +6,11 @@ import mermaid from 'mermaid'
 
 import contentHeightStyle from '../variables/contentHeightStyle'
 
+import ViewActionMenu from './ViewActionMenu'
+
 const zoomScaleList = [100, 75, 50]
 
-function Preview({ code, onError }) {
+function Preview({ code, onError, viewOnlyMode }) {
   const [hasError, setHasError] = useState(false)
   const [activeZoomScale, setActiveZoomScale] = useState(zoomScaleList[0])
   const container = useRef()
@@ -36,24 +38,34 @@ function Preview({ code, onError }) {
 
   return (
     <PreviewWrapper>
-      <ZoomControl>
-        <Row type="flex" gutter={16} justify="end">
-          <Col>Zoom</Col>
-          {zoomScaleList.map((scale) => (
-            <Col key={scale}>
-              <ZoomScale
-                active={activeZoomScale === scale}
-                onClick={handleOnZoomScaleClick(scale)}
-              >
-                {scale}%
-              </ZoomScale>
+      {!viewOnlyMode && (
+        <ZoomControl>
+          <Row type="flex">
+            <Col span={14}>
+              <ViewActionMenu />
             </Col>
-          ))}
-        </Row>
-      </ZoomControl>
+            <Col span={10}>
+              <Row type="flex" gutter={16} justify="end">
+                <Col>Zoom</Col>
+                {zoomScaleList.map((scale) => (
+                  <Col key={scale}>
+                    <ZoomScale
+                      active={activeZoomScale === scale}
+                      onClick={handleOnZoomScaleClick(scale)}
+                    >
+                      {scale}%
+                    </ZoomScale>
+                  </Col>
+                ))}
+              </Row>
+            </Col>
+          </Row>
+        </ZoomControl>
+      )}
       <PreviewContainer
         id="renderedSVG"
         ref={container}
+        viewOnlyMode={viewOnlyMode}
         hasError={hasError}
         scale={activeZoomScale}
       />
@@ -70,10 +82,12 @@ function Preview({ code, onError }) {
 Preview.propTypes = {
   code: PropTypes.string,
   onError: PropTypes.func,
+  viewOnlyMode: PropTypes.bool,
 }
 
 Preview.defaultProps = {
   onError: () => {},
+  viewOnlyMode: false,
 }
 
 export default Preview
@@ -83,15 +97,17 @@ const PreviewWrapper = styled.div`
 `
 
 const PreviewContainer = styled.div`
-  height: calc(${contentHeightStyle} - 38px);
+  height: ${(p) =>
+    p.viewOnlyMode ? '100%' : `calc(${contentHeightStyle} - 38px)`};
   background-color: white;
   opacity: ${(p) => (p.hasError ? 0.4 : 1)};
   overflow: auto;
   transition: 0.2s;
 
   svg {
-    height: auto;
-    transform: scale(${(p) => p.scale / 100});
+    height: ${(p) => (p.viewOnlyMode ? '100%' : 'auto')};
+    max-height: ${(p) => p.viewOnlyMode && '100vh'};
+    transform: ${(p) => (p.viewOnlyMode ? 'auto' : `scale(${p.scale / 100})`)};
     transition: transform 0.2s;
   }
 `

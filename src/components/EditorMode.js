@@ -12,7 +12,6 @@ import { ensureDecodeParamData } from '../helpers/utils'
 
 import contentHeightStyle from '../variables/contentHeightStyle'
 
-import ActionsMenu from './ActionsMenu'
 import CodeEditor from './CodeEditor'
 import Preview from './Preview'
 
@@ -33,13 +32,8 @@ function EditorMode({ fallbackData }) {
     <Layout>
       <Header>
         <Row type="flex">
-          <Col span={14}>
+          <Col>
             <AppName>Mermaid Live Editor</AppName>
-          </Col>
-          <Col span={10}>
-            <Row type="flex" justify="end">
-              <ActionsMenu />
-            </Row>
           </Col>
         </Row>
       </Header>

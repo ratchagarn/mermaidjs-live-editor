@@ -7,7 +7,7 @@ import copy from 'copy-to-clipboard'
 import { Base64 } from 'js-base64'
 import dayjs from 'dayjs'
 
-function ActionsMenu() {
+function ViewActionMenu() {
   const { data } = useParams()
 
   const linkToView = `/views/${data}`
@@ -33,7 +33,7 @@ function ActionsMenu() {
   )
 
   return (
-    <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
+    <Dropdown overlay={menu} trigger={['click']}>
       <TiggerButton onClick={(e) => e.preventDefault()}>
         Actions <DownOutlined />
       </TiggerButton>
@@ -59,7 +59,7 @@ function ActionsMenu() {
   }
 }
 
-export default ActionsMenu
+export default ViewActionMenu
 
 const TiggerButton = styled.button`
   display: inline;
