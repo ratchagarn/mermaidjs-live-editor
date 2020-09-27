@@ -13,7 +13,7 @@ function ViewMode() {
 
   return (
     <Fragment>
-      <Preview code={decodeData} onError={handleOnError} viewOnlyMode />
+      <Preview code={decodeData} onError={handleOnError} />
       {error && (
         <ErrorMessage>
           Can not render diagram, please check data source

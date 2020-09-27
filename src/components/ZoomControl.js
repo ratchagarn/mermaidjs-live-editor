@@ -3,22 +3,22 @@ import PropTypes from 'prop-types'
 import { Row, Col } from 'antd'
 import styled from 'styled-components'
 
-const zoomScaleList = [100, 75, 50]
+const zoomPercentageList = [100, 75, 50]
 
-function ZoomControl({ initZoomScale, onChange }) {
-  const [zoomScale, setZoomScale] = useState(initZoomScale)
+function ZoomControl({ initZoomPercentage, onChange }) {
+  const [zoomPercentage, setZoomPercentage] = useState(initZoomPercentage)
 
   useEffect(() => {
-    onChange(zoomScale)
-  }, [onChange, zoomScale])
+    onChange(zoomPercentage)
+  }, [onChange, zoomPercentage])
 
   return (
     <Row type="flex" gutter={16}>
       <Col>Zoom</Col>
-      {zoomScaleList.map((scale) => (
+      {zoomPercentageList.map((scale) => (
         <Col key={scale}>
           <ZoomScale
-            active={zoomScale === scale}
+            active={zoomPercentage === scale}
             onClick={handleOnZoomScaleClick(scale)}
           >
             {scale}%
@@ -30,18 +30,18 @@ function ZoomControl({ initZoomScale, onChange }) {
 
   function handleOnZoomScaleClick(scale) {
     return () => {
-      setZoomScale(scale)
+      setZoomPercentage(scale)
     }
   }
 }
 
 ZoomControl.propTypes = {
-  initZoomScale: PropTypes.number,
+  initZoomPercentage: PropTypes.oneOf(zoomPercentageList),
   onChange: PropTypes.func,
 }
 
 ZoomControl.defaultProps = {
-  initZoomScale: 100,
+  initZoomPercentage: 100,
   onChange: () => {},
 }
 

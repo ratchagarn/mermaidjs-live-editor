@@ -12,16 +12,23 @@ import { ensureDecodeParamData } from '../helpers/utils'
 
 import contentHeightStyle from '../variables/contentHeightStyle'
 
+import ViewActionMenu from './ViewActionMenu'
+import ZoomControl from './ZoomControl'
 import CodeEditor from './CodeEditor'
 import Preview from './Preview'
 
 const { Header, Footer, Content } = Layout
+const initZoomPercentage = 100
 
 function EditorMode({ fallbackData }) {
   const { data } = useParams()
   const history = useHistory()
   const decodeData = ensureDecodeParamData(data, fallbackData)
+
   const [sourceCode, setSourceCode] = useState(decodeData)
+  const [activeZoomPercentage, setActiveZoomPercentage] = useState(
+    initZoomPercentage
+  )
 
   const debounced = useDebouncedCallback(
     (sourceCode) => history.replace(`/edit/${Base64.encodeURI(sourceCode)}`),
@@ -43,7 +50,24 @@ function EditorMode({ fallbackData }) {
             <CodeEditor value={decodeData} onChange={handleOnEditorChange} />
           </Col>
           <Col span={14}>
-            <Preview code={sourceCode} />
+            <PreviewActionBar>
+              <Row type="flex">
+                <Col span={14}>
+                  <ViewActionMenu />
+                </Col>
+                <Col span={10}>
+                  <Row type="flex" gutter={16} justify="end">
+                    <Col>
+                      <ZoomControl
+                        initZoomPercentage={initZoomPercentage}
+                        onChange={handleOnZoomControlChange}
+                      />
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </PreviewActionBar>
+            <Preview code={sourceCode} zoomPercentage={activeZoomPercentage} />
           </Col>
         </Row>
       </Content>
@@ -60,6 +84,10 @@ function EditorMode({ fallbackData }) {
     </Layout>
   )
 
+  function handleOnZoomControlChange(zoomPercentage) {
+    setActiveZoomPercentage(zoomPercentage)
+  }
+
   function handleOnEditorChange(value) {
     setSourceCode(value)
     debounced.callback(value)
@@ -74,4 +102,10 @@ export default EditorMode
 
 const AppName = styled.h3`
   color: white;
+`
+
+const PreviewActionBar = styled.div`
+  padding: 8px;
+  background-color: black;
+  color: #999;
 `
