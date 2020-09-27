@@ -111,13 +111,3 @@ const PreviewActionBar = styled.div`
   background-color: black;
   color: #999;
 `
-
-const ZoomScale = styled.span`
-  color: ${(p) => (p.active ? 'white' : '#666')};
-  cursor: pointer;
-  transition: 0.2s;
-
-  &:hover {
-    color: ${(p) => (p.active ? 'white' : '#AAA')};
-  }
-`
