@@ -7,12 +7,13 @@ import mermaid from 'mermaid'
 import contentHeightStyle from '../variables/contentHeightStyle'
 
 import ViewActionMenu from './ViewActionMenu'
+import ZoomControl from './ZoomControl'
 
-const zoomScaleList = [100, 75, 50]
+const initZoomScale = 100
 
 function Preview({ code, onError, viewOnlyMode }) {
   const [hasError, setHasError] = useState(false)
-  const [activeZoomScale, setActiveZoomScale] = useState(zoomScaleList[0])
+  const [activeZoomScale, setActiveZoomScale] = useState(initZoomScale)
   const container = useRef()
 
   useEffect(() => {
@@ -39,28 +40,23 @@ function Preview({ code, onError, viewOnlyMode }) {
   return (
     <PreviewWrapper>
       {!viewOnlyMode && (
-        <ZoomControl>
+        <PreviewActionBar>
           <Row type="flex">
             <Col span={14}>
               <ViewActionMenu />
             </Col>
             <Col span={10}>
               <Row type="flex" gutter={16} justify="end">
-                <Col>Zoom</Col>
-                {zoomScaleList.map((scale) => (
-                  <Col key={scale}>
-                    <ZoomScale
-                      active={activeZoomScale === scale}
-                      onClick={handleOnZoomScaleClick(scale)}
-                    >
-                      {scale}%
-                    </ZoomScale>
-                  </Col>
-                ))}
+                <Col>
+                  <ZoomControl
+                    initZoomScale={initZoomScale}
+                    onChange={handleOnZoomControlChange}
+                  />
+                </Col>
               </Row>
             </Col>
           </Row>
-        </ZoomControl>
+        </PreviewActionBar>
       )}
       <PreviewContainer
         id="renderedSVG"
@@ -72,10 +68,8 @@ function Preview({ code, onError, viewOnlyMode }) {
     </PreviewWrapper>
   )
 
-  function handleOnZoomScaleClick(scale) {
-    return () => {
-      setActiveZoomScale(scale)
-    }
+  function handleOnZoomControlChange(zoomScale) {
+    setActiveZoomScale(zoomScale)
   }
 }
 
@@ -112,7 +106,7 @@ const PreviewContainer = styled.div`
   }
 `
 
-const ZoomControl = styled.div`
+const PreviewActionBar = styled.div`
   padding: 8px;
   background-color: black;
   color: #999;
