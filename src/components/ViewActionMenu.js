@@ -25,9 +25,10 @@ function ViewActionMenu() {
         </span>
       </Menu.Item>
       <Menu.Item>
-        <a href="#download-as-svg" onClick={handleOnDownloadSVG}>
-          Donwload as SVG
-        </a>
+        <span onClick={handleOnDownloadAsSVG}>Donwload as SVG</span>
+      </Menu.Item>
+      <Menu.Item>
+        <span onClick={handleOnDownloadAsPNG}>Donwload as PNG</span>
       </Menu.Item>
     </Menu>
   )
@@ -47,15 +48,45 @@ function ViewActionMenu() {
     }
   }
 
-  function handleOnDownloadSVG(event) {
-    const renderedSVG = document.getElementById('renderedSVG')
-    const svg = renderedSVG.querySelector('svg')
+  function handleOnDownloadAsSVG() {
+    const svg = document.getElementById('renderedSVG').querySelector('svg')
 
-    const url = `data:image/svg+xml;base64,${Base64.encode(svg.outerHTML)}`
-    event.target.href = url
-    event.target.download = `mermaid-diagram-${dayjs().format(
-      'YYYYMMDDHHmmss'
-    )}.svg`
+    const dataURI = `data:image/svg+xml;base64,${Base64.encode(svg.outerHTML)}`
+
+    const downloadLink = document.createElement('a')
+    downloadLink.href = dataURI
+    downloadLink.download = generateSaveFilename('svg')
+    downloadLink.click()
+  }
+
+  function handleOnDownloadAsPNG() {
+    const svg = document.getElementById('renderedSVG').querySelector('svg')
+    const svgSize = svg.getBoundingClientRect()
+
+    const svgData = new XMLSerializer().serializeToString(svg)
+
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')
+
+    canvas.width = svgSize.width
+    canvas.height = svgSize.height
+
+    const img = document.createElement('img')
+
+    img.setAttribute('src', 'data:image/svg+xml;base64,' + btoa(svgData))
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0)
+      const dataURI = canvas.toDataURL('image/png')
+
+      const downloadLink = document.createElement('a')
+      downloadLink.href = dataURI
+      downloadLink.download = generateSaveFilename('png')
+      downloadLink.click()
+    }
+  }
+
+  function generateSaveFilename(extension) {
+    return `mermaid-diagram-${dayjs().format('YYYYMMDDHHmmss')}.${extension}`
   }
 }
 
