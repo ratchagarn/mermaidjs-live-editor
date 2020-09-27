@@ -44,6 +44,7 @@ function EditorMode({ fallbackData }) {
           </Col>
         </Row>
       </Header>
+
       <Content style={{ minHeight: `calc(${contentHeightStyle})` }}>
         <Row type="flex">
           <Col span={10}>
@@ -71,9 +72,17 @@ function EditorMode({ fallbackData }) {
           </Col>
         </Row>
       </Content>
-      <Footer>
+
+      <Footer
+        style={{
+          paddingTop: 8,
+          paddingBottom: 8,
+          backgroundColor: 'ghostwhite',
+          fontSize: 12,
+        }}
+      >
         <Row type="flex">
-          <Col span={14}>Make with Love by @ratchagarn</Col>
+          <Col span={14}>Made with Love by @ratchagarn</Col>
           <Col span={10}>
             <Row type="flex" justify="end">
               <Col>v{pkg.version}</Col>
@@ -105,6 +114,7 @@ const AppName = styled.h3`
 `
 
 const PreviewActionBar = styled.div`
+  height: 38px;
   padding: 8px;
   background-color: black;
   color: #999;
