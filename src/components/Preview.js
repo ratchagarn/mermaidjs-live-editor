@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import mermaid from 'mermaid'
+import { useDebouncedCallback } from 'use-debounce'
 
 import contentHeightStyle from '../variables/contentHeightStyle'
 
@@ -13,22 +14,22 @@ function Preview({ code, onError, zoomPercentage }) {
     hasError && onError()
   }, [hasError, onError])
 
-  useEffect(() => {
-    if (!code) {
+  useDebouncedCallback((sourceCode) => {
+    if (!sourceCode) {
       return
     }
 
     try {
       setHasError(false)
 
-      mermaid.parse(code)
+      mermaid.parse(sourceCode)
       container.current.removeAttribute('data-processed')
-      container.current.innerHTML = code
+      container.current.innerHTML = sourceCode
       mermaid.init(undefined, container.current)
     } catch (e) {
       setHasError(true)
     }
-  }, [code])
+  }, 500).callback(code)
 
   return (
     <PreviewContainer
