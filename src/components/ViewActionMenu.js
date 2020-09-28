@@ -4,8 +4,9 @@ import styled from 'styled-components'
 import { Menu, Dropdown, message } from 'antd'
 import { BarsOutlined } from '@ant-design/icons'
 import copy from 'copy-to-clipboard'
-import { Base64 } from 'js-base64'
 import dayjs from 'dayjs'
+
+import exportSVGElement from '../helpers/exportSVGElement'
 
 function ViewActionMenu() {
   const { data } = useParams()
@@ -19,17 +20,11 @@ function ViewActionMenu() {
           Link to views
         </Link>
       </Menu.Item>
-      <Menu.Item>
-        <span onClick={handleCopyLinkToView(linkToView)}>
-          Copy - Link to views
-        </span>
+      <Menu.Item onClick={handleCopyLinkToView(linkToView)}>
+        Copy - Link to views
       </Menu.Item>
-      <Menu.Item>
-        <span onClick={handleOnDownloadAsSVG}>Donwload as SVG</span>
-      </Menu.Item>
-      <Menu.Item>
-        <span onClick={handleOnDownloadAsPNG}>Donwload as PNG</span>
-      </Menu.Item>
+      <Menu.Item onClick={handleOnDownloadAsSVG}>Donwload as SVG</Menu.Item>
+      <Menu.Item onClick={handleOnDownloadAsPNG}>Donwload as PNG</Menu.Item>
     </Menu>
   )
 
@@ -51,38 +46,13 @@ function ViewActionMenu() {
   function handleOnDownloadAsSVG() {
     const svg = document.getElementById('renderedSVG').querySelector('svg')
 
-    const dataURI = `data:image/svg+xml;base64,${Base64.encode(svg.outerHTML)}`
-
-    const downloadLink = document.createElement('a')
-    downloadLink.href = dataURI
-    downloadLink.download = generateSaveFilename('svg')
-    downloadLink.click()
+    exportSVGElement(svg).asSVG(generateSaveFilename('svg'))
   }
 
   function handleOnDownloadAsPNG() {
     const svg = document.getElementById('renderedSVG').querySelector('svg')
-    const svgSize = svg.getBoundingClientRect()
 
-    const svgData = new XMLSerializer().serializeToString(svg)
-
-    const canvas = document.createElement('canvas')
-    const ctx = canvas.getContext('2d')
-
-    canvas.width = svgSize.width
-    canvas.height = svgSize.height
-
-    const img = document.createElement('img')
-
-    img.setAttribute('src', 'data:image/svg+xml;base64,' + btoa(svgData))
-    img.onload = () => {
-      ctx.drawImage(img, 0, 0)
-      const dataURI = canvas.toDataURL('image/png')
-
-      const downloadLink = document.createElement('a')
-      downloadLink.href = dataURI
-      downloadLink.download = generateSaveFilename('png')
-      downloadLink.click()
-    }
+    exportSVGElement(svg).asPNG(generateSaveFilename('png'))
   }
 
   function generateSaveFilename(extension) {
