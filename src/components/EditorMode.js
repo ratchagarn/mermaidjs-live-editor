@@ -83,7 +83,16 @@ function EditorMode({ fallbackData }) {
         }}
       >
         <Row type="flex">
-          <Col span={14}>Made with Love by @ratchagarn</Col>
+          <Col span={14}>
+            Made with Love by{' '}
+            <a
+              href="https://github.com/ratchagarn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              @ratchagarn
+            </a>
+          </Col>
           <Col span={10}>
             <Row type="flex" justify="end">
               <Col>v{pkg.version}</Col>
