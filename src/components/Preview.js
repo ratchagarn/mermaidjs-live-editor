@@ -6,7 +6,7 @@ import { useDebouncedCallback } from 'use-debounce'
 
 import contentHeightStyle from '../variables/contentHeightStyle'
 
-function Preview({ code, onError, zoomPercentage }) {
+function Preview({ code, onError, zoomPercentage, viewMode }) {
   const [hasError, setHasError] = useState(false)
   const container = useRef()
 
@@ -37,6 +37,7 @@ function Preview({ code, onError, zoomPercentage }) {
       ref={container}
       hasError={hasError}
       zoomPercentage={zoomPercentage}
+      viewMode={viewMode}
     />
   )
 }
@@ -45,16 +46,19 @@ Preview.propTypes = {
   code: PropTypes.string,
   onError: PropTypes.func,
   zoomPercentage: PropTypes.number,
+  viewMode: PropTypes.bool,
 }
 
 Preview.defaultProps = {
   onError: () => {},
+  viewMode: false,
 }
 
 export default Preview
 
 const PreviewContainer = styled.div`
-  height: calc(${contentHeightStyle} - 38px);
+  height: ${(p) =>
+    p.viewMode ? 'auto' : `calc(${contentHeightStyle} - 38px)`};
   background-color: white;
   opacity: ${(p) => (p.hasError ? 0.4 : 1)};
   overflow: auto;
