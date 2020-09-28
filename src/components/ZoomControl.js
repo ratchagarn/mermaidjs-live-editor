@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Row, Col } from 'antd'
+import { Row, Col, InputNumber } from 'antd'
 import styled from 'styled-components'
 
-const zoomPercentageList = [100, 75, 50]
+import { numberRange } from '../helpers/utils'
+
+const zoomPercentageList = [100, 90, 80, 70, 60, 50]
 
 function ZoomControl({ initZoomPercentage, onChange }) {
   const [zoomPercentage, setZoomPercentage] = useState(initZoomPercentage)
@@ -14,24 +16,42 @@ function ZoomControl({ initZoomPercentage, onChange }) {
 
   return (
     <Row type="flex" gutter={16}>
-      <Col>Zoom</Col>
       {zoomPercentageList.map((scale) => (
         <Col key={scale}>
           <ZoomScale
             active={zoomPercentage === scale}
-            onClick={handleOnZoomScaleClick(scale)}
+            onClick={handleOnZoomListItemClick(scale)}
           >
             {scale}%
           </ZoomScale>
         </Col>
       ))}
+      <Col>
+        <InputNumber
+          style={{ width: 66 }}
+          size="small"
+          min={1}
+          max={100}
+          maxLength="3"
+          value={zoomPercentage}
+          onChange={handleOnZoomValueChange}
+        />
+      </Col>
     </Row>
   )
 
-  function handleOnZoomScaleClick(scale) {
+  function handleOnZoomListItemClick(percentage) {
     return () => {
-      setZoomPercentage(scale)
+      setZoomPercentage(percentage)
     }
+  }
+
+  function handleOnZoomValueChange(percentage) {
+    if (typeof percentage !== 'number') {
+      return
+    }
+
+    setZoomPercentage(numberRange(percentage, 1, 100))
   }
 }
 

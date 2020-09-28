@@ -53,10 +53,10 @@ function EditorMode({ fallbackData }) {
           <Col span={14}>
             <PreviewActionBar>
               <Row type="flex">
-                <Col span={14}>
+                <Col span={6}>
                   <ViewActionMenu />
                 </Col>
-                <Col span={10}>
+                <Col span={18}>
                   <Row type="flex" gutter={16} justify="end">
                     <Col>
                       <ZoomControl
