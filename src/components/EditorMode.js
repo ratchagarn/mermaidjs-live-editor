@@ -30,10 +30,11 @@ function EditorMode({ fallbackData }) {
     initZoomPercentage
   )
 
-  const debounced = useDebouncedCallback(
-    (sourceCode) => history.replace(`/edit/${Base64.encodeURI(sourceCode)}`),
-    500
-  )
+  const debounced = useDebouncedCallback((sourceCode) => {
+    if (sourceCode.length > 0) {
+      history.replace(`/edit/${Base64.encodeURI(sourceCode)}`)
+    }
+  }, 500)
 
   return (
     <Layout>
