@@ -17,7 +17,7 @@ import ZoomControl from './ZoomControl'
 import CodeEditor from './CodeEditor'
 import Preview from './Preview'
 
-const { Header, Footer, Content } = Layout
+const { Header, Content } = Layout
 const initZoomPercentage = 100
 
 function EditorMode({ fallbackData }) {
@@ -40,8 +40,24 @@ function EditorMode({ fallbackData }) {
     <Layout>
       <Header>
         <Row type="flex">
-          <Col>
-            <AppName>Mermaid Live Editor</AppName>
+          <Col span={10}>
+            <AppName>Mermaid Live Editor v{pkg.version}</AppName>
+          </Col>
+          <Col span={14}>
+            <Row type="flex" gutter={16} justify="end">
+              <Col>
+                <Signature>
+                  Made with Love by{' '}
+                  <a
+                    href="https://github.com/ratchagarn"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    @ratchagarn
+                  </a>
+                </Signature>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Header>
@@ -73,33 +89,6 @@ function EditorMode({ fallbackData }) {
           </Col>
         </Row>
       </Content>
-
-      <Footer
-        style={{
-          paddingTop: 8,
-          paddingBottom: 8,
-          backgroundColor: 'ghostwhite',
-          fontSize: 12,
-        }}
-      >
-        <Row type="flex">
-          <Col span={14}>
-            Made with Love by{' '}
-            <a
-              href="https://github.com/ratchagarn"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              @ratchagarn
-            </a>
-          </Col>
-          <Col span={10}>
-            <Row type="flex" justify="end">
-              <Col>v{pkg.version}</Col>
-            </Row>
-          </Col>
-        </Row>
-      </Footer>
     </Layout>
   )
 
@@ -121,6 +110,11 @@ export default EditorMode
 
 const AppName = styled.h3`
   color: white;
+`
+
+const Signature = styled.span`
+  color: white;
+  font-size: 12px;
 `
 
 const PreviewActionBar = styled.div`

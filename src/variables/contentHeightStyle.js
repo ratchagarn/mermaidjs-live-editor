@@ -1,1 +1,1 @@
-export default '100vh - 64px - 38px'
+export default '100vh - 64px'
