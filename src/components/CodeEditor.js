@@ -20,6 +20,9 @@ function CodeEditor({ value, onChange }) {
       theme: 'vs-dark',
       language: 'mermaid',
       automaticLayout: true,
+      minimap: {
+        enabled: false,
+      },
     })
 
     editor.getModel().updateOptions({ tabSize: 2 })
