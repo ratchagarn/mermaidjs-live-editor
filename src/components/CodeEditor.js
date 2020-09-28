@@ -2,6 +2,8 @@ import React, { useRef, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import mermaid from 'mermaid'
+import 'monaco-editor/esm/vs/editor/browser/controller/coreCommands.js'
+import 'monaco-editor/esm/vs/editor/contrib/find/findController.js'
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js'
 
 import contentHeightStyle from '../variables/contentHeightStyle'
