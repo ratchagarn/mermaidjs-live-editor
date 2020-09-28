@@ -16,7 +16,7 @@ monaco.languages.setMonarchTokensProvider('mermaid', {
     'gantt',
   ],
   keywords: ['patricipant', 'as'],
-  arrows: ['---', '===', '-->', '==>'],
+  arrows: ['---', '===', '-->', '->>', '-->>', '==>'],
 
   tokenizer: {
     root: [
@@ -36,15 +36,15 @@ monaco.languages.setMonarchTokensProvider('mermaid', {
   ],
 })
 
-monaco.editor.defineTheme('myCoolTheme', {
-  base: 'vs',
-  inherit: false,
+monaco.editor.defineTheme('vs-dark-mermaid', {
+  base: 'vs-dark',
+  inherit: true,
   rules: [
-    { token: 'keyword', foreground: '880000', fontStyle: 'bold' },
-    { token: 'custom-error', foreground: 'ff0000', fontStyle: 'bold' },
-    { token: 'string', foreground: 'AA8500' },
-    { token: 'transition', foreground: '008800', fontStyle: 'bold' },
-    { token: 'delimiter.bracket', foreground: '000000', fontStyle: 'bold' },
+    { token: 'keyword', foreground: 'BA49FF', fontStyle: 'bold' },
+    { token: 'custom-error', foreground: 'FF0000', fontStyle: 'bold' },
+    { token: 'string', foreground: 'FF768C' },
+    { token: 'transition', foreground: 'FFFF00', fontStyle: 'bold' },
+    { token: 'delimiter.bracket', foreground: 'C7FF8E', fontStyle: 'bold' },
   ],
 })
 

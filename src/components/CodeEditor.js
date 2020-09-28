@@ -19,7 +19,7 @@ function CodeEditor({ value, onChange }) {
 
     const editor = monaco.editor.create(editorElement.current, {
       value,
-      theme: 'vs-dark',
+      theme: 'vs-dark-mermaid',
       language: 'mermaid',
       automaticLayout: true,
       minimap: {
