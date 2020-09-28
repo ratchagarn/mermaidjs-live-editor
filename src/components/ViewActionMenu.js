@@ -1,8 +1,13 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { Menu, Dropdown, message } from 'antd'
-import { BarsOutlined } from '@ant-design/icons'
+import { Menu, Dropdown, Tag, message } from 'antd'
+import {
+  BarsOutlined,
+  CopyOutlined,
+  DownloadOutlined,
+  LinkOutlined,
+} from '@ant-design/icons'
 import copy from 'copy-to-clipboard'
 import dayjs from 'dayjs'
 
@@ -17,14 +22,18 @@ function ViewActionMenu() {
     <Menu>
       <Menu.Item>
         <Link to={`/views/${data}`} target="_blank">
-          Link to views
+          <LinkOutlined /> Link to views
         </Link>
       </Menu.Item>
       <Menu.Item onClick={handleCopyLinkToView(linkToView)}>
-        Copy - Link to views
+        <CopyOutlined /> Copy - Link to views
       </Menu.Item>
-      <Menu.Item onClick={handleOnDownloadAsSVG}>Donwload as SVG</Menu.Item>
-      <Menu.Item onClick={handleOnDownloadAsPNG}>Donwload as PNG</Menu.Item>
+      <Menu.Item onClick={handleOnDownloadAsSVG}>
+        <DownloadOutlined /> Donwload as <Tag color="green">SVG</Tag>
+      </Menu.Item>
+      <Menu.Item onClick={handleOnDownloadAsPNG}>
+        <DownloadOutlined /> Donwload as <Tag color="red">PNG</Tag>
+      </Menu.Item>
     </Menu>
   )
 
