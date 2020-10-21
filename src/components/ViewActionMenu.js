@@ -29,10 +29,13 @@ function ViewActionMenu() {
         <CopyOutlined /> Copy - Link to views
       </Menu.Item>
       <Menu.Item onClick={handleOnDownloadAsSVG}>
-        <DownloadOutlined /> Donwload as <Tag color="green">SVG</Tag>
+        <DownloadOutlined /> Donwload as <Tag color="orange">SVG</Tag>
       </Menu.Item>
       <Menu.Item onClick={handleOnDownloadAsPNG}>
         <DownloadOutlined /> Donwload as <Tag color="red">PNG</Tag>
+      </Menu.Item>
+      <Menu.Item onClick={handleOnDownloadAsPDF}>
+        <DownloadOutlined /> Donwload as <Tag color="darkred">PDF</Tag>
       </Menu.Item>
     </Menu>
   )
@@ -62,6 +65,12 @@ function ViewActionMenu() {
     const svg = document.getElementById('renderedSVG').querySelector('svg')
 
     exportSVGElement(svg).asPNG(generateSaveFilename('png'))
+  }
+
+  function handleOnDownloadAsPDF() {
+    const svg = document.getElementById('renderedSVG').querySelector('svg')
+
+    exportSVGElement(svg).asPDF(generateSaveFilename('pdf'))
   }
 
   function generateSaveFilename(extension) {
