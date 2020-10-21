@@ -1,4 +1,5 @@
 import { Base64 } from 'js-base64'
+import { jsPDF } from 'jspdf'
 
 function exportSVGElement(svgElement) {
   const svgSize = svgElement.getBoundingClientRect()
@@ -13,7 +14,7 @@ function exportSVGElement(svgElement) {
       downloadLink.download = filename
       downloadLink.click()
     },
-    asPNG(filename) {
+    asPNG(filename, callback) {
       const canvas = document.createElement('canvas')
       const ctx = canvas.getContext('2d')
 
@@ -27,11 +28,22 @@ function exportSVGElement(svgElement) {
         ctx.drawImage(img, 0, 0)
         const dataURL = canvas.toDataURL('image/png')
 
-        const downloadLink = document.createElement('a')
-        downloadLink.href = dataURL
-        downloadLink.download = filename
-        downloadLink.click()
+        if (typeof callback === 'function') {
+          callback(dataURL)
+        } else {
+          const downloadLink = document.createElement('a')
+          downloadLink.href = dataURL
+          downloadLink.download = filename
+          downloadLink.click()
+        }
       }
+    },
+    asPDF(filename) {
+      this.asPNG(filename, (dataURL) => {
+        const pdf = new jsPDF()
+        pdf.addImage(dataURL, 'PNG', 0, 0)
+        pdf.save(filename)
+      })
     },
   }
 }
